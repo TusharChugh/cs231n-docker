@@ -1,0 +1,141 @@
+FROM tensorflow/tensorflow:latest-devel-gpu-py3
+
+LABEL maintainer="Tushar Chugh"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bc \
+    #Utilities
+    nano \
+    vim \
+    gedit \
+    tar \
+    bash \
+    #c++
+    musl-dev \
+    cmake \
+    make \
+    gcc \
+    g++ \
+    #libstdc++ \
+    libc-dev \
+    gfortran \
+    #more
+    libffi-dev \
+    libhdf5-dev \
+    libjpeg-dev \
+    liblcms2-dev \
+    liblapack-dev \
+    libpng12-dev \
+    libssl-dev \
+    libtiff5-dev \
+    libwebp-dev \
+    qt5-default \
+    libvtk6-dev \
+    libpng-dev \
+    libjasper-dev \
+    libopenexr-dev \
+    libgdal-dev \
+    libdc1394-22-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libtheora-dev \
+    libvorbis-dev \
+    libxvidcore-dev \
+    libx264-dev \
+    yasm \
+    libopencore-amrnb-dev \
+    libv4l-dev \
+    libxine2-dev \
+    libtbb-dev \
+    libeigen3-dev \
+    python-tk \
+    ant \
+    default-jdk \
+    doxygen \
+    #Dependencies
+    # readline-dev \
+    # libgcc \
+    # build-base \
+    libopenjpeg5 \
+    && \
+    apt-get clean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* 
+
+# Install useful Python packages using apt-get to avoid version incompatibilities with Tensorflow binary
+# especially numpy, scipy, skimage and sklearn (see https://github.com/tensorflow/tensorflow/issues/2034)
+RUN apt-get update && apt-get install -y \
+    python-nose \
+    python-h5py \
+    python-skimage \
+    python-sympy \
+    && \
+    apt-get clean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip --no-cache-dir install \
+    Cython \
+    Jinja2 \
+    MarkupSafe \
+    Pillow \
+    Pygments \
+    appnope \
+    argparse \
+    backports-abc \
+    backports.ssl-match-hostname \
+    certifi \
+    cycler \
+    decorator \
+    future \
+    gnureadline \
+    ipython \
+    ipython-genutils \
+    ipywidgets \
+    jsonschema \
+    jupyter-client \
+    jupyter-console \
+    jupyter-core \
+    mistune \
+    nbconvert \
+    nbformat \
+    notebook \
+    path.py \
+    pexpect \
+    pickleshare \
+    ptyprocess \
+    pyparsing \
+    python-dateutil \
+    pytz \
+    pyzmq \
+    qtconsole \
+    simplegeneric \
+    singledispatch \
+    six \
+    terminado \
+    tornado \
+    traitlets \
+    pyyaml \
+    && mkdir cs231n 
+
+RUN cd cs231n \
+    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment1.zip \
+    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment2.zip \
+    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment3_v3.zip \
+    && unzip spring1617_assignment1.zip \
+    && unzip spring1617_assignment2.zip \
+    && unzip spring1617_assignment3_v3.zip \
+    && sh assignment1/cs231n/datasets/get_datasets.sh \
+    && sh assignment2/cs231n/datasets/get_datasets.sh \
+    && sh assignment3/cs231n/datasets/get_assignment3_data.sh 
+    && sh assignment3/cs231n/datasets/get_coco_captioning.sh \
+    && sh assignment3/cs231n/datasets/get_imagenet_val.sh \
+    && sh assignment3/cs231n/datasets/get_squeezenet_tf.sh 
+
+WORKDIR /root
+
+# TensorBoard
+EXPOSE 6006
+# IPython
+EXPOSE 8888
