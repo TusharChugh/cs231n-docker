@@ -128,6 +128,8 @@ RUN cd cs231n \
     && sh get_datasets.sh \
     && cd ~/cs231n/assignment2/cs231n/datasets \
     && sh get_datasets.sh \
+    && cd ~/cs231n/assignment2/cs231n/ \
+    && python3 setup.py build_ext --inplace \
     && cd ~/cs231n/assignment3/cs231n/datasets \
     && sh get_assignment3_data.sh \
     && sh get_coco_captioning.sh \
