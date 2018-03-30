@@ -114,16 +114,9 @@ RUN pip --no-cache-dir install \
     terminado \
     tornado \
     traitlets \
-    pyyaml \
-    && mkdir cs231n 
+    pyyaml 
 
-RUN cd cs231n \
-    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment1.zip \
-    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment2.zip \
-    && wget http://cs231n.stanford.edu/assignments/2017/spring1617_assignment3_v3.zip \
-    && unzip spring1617_assignment1.zip \
-    && unzip spring1617_assignment2.zip \
-    && unzip spring1617_assignment3_v3.zip \
+RUN git clone https://github.com/TusharChugh/cs231n.git \
     && cd ~/cs231n/assignment1/cs231n/datasets \
     && sh get_datasets.sh \
     && cd ~/cs231n/assignment2/cs231n/datasets \
